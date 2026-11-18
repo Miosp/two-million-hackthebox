@@ -3,6 +3,8 @@
 Box `10.129.229.66`, header `Host: 2million.htb`, attacker = tun0 `10.10.14.24`.
 Full trail in `2026-11-*.md`; this is the fast path only.
 
+**Chain:** `invite code` → account → **mass-assign is_admin** → **cmd injection** = www-data shell → `.env` creds = admin (**user flag**) → **CVE-2023-0386** = root (**root flag**)
+
 ## 1. Invite + account (2 min)
 
 ```bash
@@ -53,6 +55,7 @@ echo SuperDuperPass123 | su - admin -c "cat /home/admin/user.txt"   # works non-
 ## 5. root.txt (CVE-2023-0386 OverlayFS, 5 min)
 
 `/var/mail/admin` literally names it: *"OverlayFS / FUSE looks nasty"*; kernel 5.15.70 < 5.15.90 fix.
+How it works: `fuse` serves a fake **SUID-root** file (`gc` = setuid(0)+bash) from a **nosuid** FUSE mount → `exp` mounts an overlay in a user-ns and writes to it → copy-up pulls the SUID file into a normal fs **keeping SUID** (the CVE) → `exp` executes the copy → root bash.
 Box gcc is broken (cc1 present but not executable) → build off-box, transfer:
 
 ```bash

